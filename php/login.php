@@ -8,103 +8,81 @@
 
       <style type="text/css"> 
       body {
-      	background-image: url("assets/img/background.jpg");
-      	background-repeat: no-repeat;
-      	background-size: cover;
-      	background-color: rgb(0,0,0); /* Black fallback color */
-    	background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+        background-image: url("assets/img/background.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgb(0,0,0); /* Black fallback color */
+      background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
       }
-
       </style>
 
     </head>
     <body>
-        <div class="login">
-            <div class="login-screen">            
-                <form id="loginform" method="post" class="form-vertical" action="login.php">
-                    <div class="app-title">
-                        <h1>Login</h1>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <div class="main_input_box">
-                                <span class="add-on bg_lg"><i class="icon-user"> </i></span>
-                                <input name="usernameinp" id="usernameinp" type="text" class="login-field" placeholder="Username" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <div class="main_input_box">
-                                <span class="add-on bg_ly"><i class="icon-lock"></i></span>
-                                <input name="passwordinp" id="passwordinp" class="login-field" type="password" placeholder="Password" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-actions">
+  <div align="center">
+    <div style="width:300px; border: solid 1px #006D9C; " align="left">
+      <?php
+        if(isset($errMsg)){
+          echo '<div style="color:#FF0000;text-align:center;font-size:12px;">'.$errMsg.'</div>';
+        }
+      ?>
+      <div style="background-color:#006D9C; color:#FFFFFF; padding:3px;text-align:center; font-size:18px;"><b>User Login </b></div>
+      <div style="margin:30px">
+        <form action="" method="post">
+          <label>Username  :</label><input type="text" name="username" class="box"/><br /><br />
+          <label>Password  :</label><input type="password" name="password" class="box" /><br/><br />
+          <input type="submit" name='submit' class="btn btn-info" value="Submit" class="col s6" class='submit'/><br />
+        </form>
+      </div>
+    </div>
+  </div>
 
-                        <span class="pull-right">
-                            <input type="submit" class="btn btn-primary btn-large btn-block" name="Submit" value="Login" class="btn btn-success"/>
-                        </span>
-                    </div>
-                </form>
+    <?php
+    $errMsg = "";
+  if(isset($_POST['submit'])){
+    //username and password sent from Form
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-            </div>
-        </div>
-		<?php
-				
-			error_reporting(0);
-            ini_set('display_errors', 0);
-			
-			ob_start();
-			session_start();
-			
-			$host="localhost"; // Host name 
-			$username="root"; // Mysql username 
-			$password=""; // Mysql password 
-			$db_name="webtek_final"; // Database name 
-			$tbl_name="user_account"; // Table name 
+    if($username == '')
+      $errMsg .= 'You must enter your Username<br>';
+    
+    if($password == '')
+      $errMsg .= 'You must enter your Password<br>';
+    
+    //if($errMsg == ''){
+        if($username && $password){
+            $connect = new PDO("mysql:host=localhost;dbname=webtek_final;charset=utf8", "root", "");
+    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $records = $connect->prepare("SELECT * FROM user_account WHERE username='$username' AND password='$password'");
+            $numberrow = $connect->query("SELECT username, password FROM user_account ");
+            
+      //$records->bindParam(':username', $username);
+            $records->execute();
+            $counter = $numberrow->rowCount();
+            
+            
+            if($counter != 0){
+                while($rows = $records->fetch(PDO::FETCH_ASSOC)){
+                    $dbuser = $rows["username"];
+                    $dbpass = $rows["password"];
 
-			// Connect to server and select databse.
-			mysql_connect("$host", "$username", "$password")or die("cannot connect"); 
-			mysql_select_db("$db_name")or die("cannot select DB");
-
-            // Define $myusername and $mypassword 
-			$myusername=$_POST['usernameinp']; 
-			$mypassword = md5($_POST['passwordinp']); 
-        
-			// Test if the variables have data
-			if(isset($myusername, $mypassword)){
-			
-				// If result matched $myusername and $mypassword, table row must be 1 row
-				if($count == 1){
                     
-                    $_SESSION['createlog']=1;
-                    die();
-					session_register("usernameinp");
-					session_register("passwordinp"); 
-                    die();
-					}  
-					
-				else if($count == 0){
-						
-					$sql = "SELECT * FROM $tbl_name WHERE username='$myusername' and password='$mypassword'";
-					$result=mysql_query($sql);
-					$count=mysql_num_rows($result);
-					if($count == 1){
-                        $_SESSION['createlog']=1;
-					 die();
-					
-					}
-				}else{
-					echo "Wrong Username or Password";
-				}							
-			}
-			if($_SESSION['logout'] == 3){
-					session_destroy();	
-				}
-         die();
-		?>
+                    if($username == $dbuser && $password == $dbpass ) {
+                        session_start();
+                        $_SESSION["username"]=$dbuser;
+                        header('Location: pages/index.php');
+
+                    }else{
+                       $errMsg .= "User Credentials Not Found!";
+                    }
+                }
+            }
+
+    }
+        
+  }
+ 
+?>
         
         <script src="js/jquery.min.js"></script>  
         <script src="js/matrix.login.js"></script> 
