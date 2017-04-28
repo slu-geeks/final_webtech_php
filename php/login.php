@@ -4,11 +4,11 @@
 <head>
       <title>Pet Services</title><meta charset="UTF-8" />
     
-      <link rel="stylesheet" href="assets/css/style.css">
+      <link rel="stylesheet" href="public/css/style.css">
 
-      <style type="text/css"> 
+      <style type="text/css">
       body {
-        background-image: url("assets/img/background.jpg");
+        background-image: url("public/img/background.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-color: rgb(0,0,0); /* Black fallback color */
@@ -51,7 +51,7 @@
     
     //if($errMsg == ''){
         if($username && $password){
-            $connect = new PDO("mysql:host=localhost;dbname=webtek_final;charset=utf8", "root", "");
+            $connect = new PDO("mysql:host=localhost;dbname=webtek_final;charset=utf8", "root", "mysqlmysql");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $records = $connect->prepare("SELECT * FROM user_account WHERE username='$username' AND password='$password'");
             $numberrow = $connect->query("SELECT username, password FROM user_account ");
@@ -85,7 +85,7 @@
 ?>
         
         <script src="js/jquery.min.js"></script>  
-        <script src="js/matrix.login.js"></script> 
+<!--        <script src="js/matrix.login.js"></script> -->
     </body>
 
 </html>
