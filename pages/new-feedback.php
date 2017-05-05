@@ -15,7 +15,7 @@
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- TABLE STYLES-->
     <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-    <script src="../assets/js/script.js" defer="defer"></script>
+    <script src="assets/js/script.js" defer="defer"></script>
 </head>
 <body>
     
@@ -46,19 +46,36 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>FeedBack</h2>   
+                        <h2>New FeedBack</h2>   
                     </div>    
                 </div>
-                <div class="jumbotron">
-                   <?php
-                        $query = $pdo->prepare("SELECT * FROM feedback where feedback_status = 0 ");
-                        $query->execute();
-                        $result = $query->fetchAll(); 
-                    ?>
-                    
-                    <button id="reply_btn" type="button" class="btn btn-default">Reply</button>
-                    <button type="button" class="btn btn-primary">Done</button>
-                </div>
+               <?php
+                    $query = $pdo->prepare("select f.ranking, f.contacting_phone_number cpn, f.feedback_messages m, u.username, concat(u.first_name, ' ', u.middle_name, ' ', u.last_name) name, u.email_address ea, f.feedback_date fd from feedback f natural join user_account u where f.feedback_status = 1;");
+                    $query->execute();
+
+                    while ($row = $query->fetch(PDO::FETCH_ASSOC)){
+                        $ranking = $row['ranking'];
+                        $cpn = $row['cpn'];
+                        $message = $row['m'];
+                        $usr = $row['username'];
+                        $name = $row['name'];
+                        $email = $row['ea'];
+                        $fdate = $row['fd'];
+                        
+                        echo ('<div class="jumbotron">'
+                            .$ranking
+                            .$cpn
+                            .$message
+                            .$usr
+                            .$name
+                            .$email
+                            .$fdate.
+                            '<button id="reply_btn" type="button" class="btn btn-default">Reply</button>'.
+                            '<button type="button" class="btn btn-primary">Done</button>'.
+                        '</div>');
+                    }
+
+                ?>
                               
             </div>
         </div>
