@@ -69,7 +69,7 @@
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT start_servicing, end_servicing, request_status, pet_service.service_name, username, service_price FROM service_request INNER JOIN user_account ON service_request.account_id = user_account.account_id INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 AND username = '$usr'"); 
+                                            $query = $pdo->prepare("SELECT b.username AS sp_username, a.username AS cust_username, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request INNER JOIN user_account AS b ON service_request.account_id = b.account_id  INNER JOIN user_account AS a ON service_request.cust_id = a.account_id  INNER JOIN pet_service ON service_request.service_id = pet_service.service_id WHERE request_status = 01 AND b.username = '$usr'"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
@@ -84,7 +84,7 @@
                                             foreach($result as $query){
                                                 echo "<tr>";
                                                 echo "<td>" . $query['start_servicing'] . "</td>";
-                                                echo "<td>" . $query['username'] . "</td>";
+                                                echo "<td>" . $query['cust_username'] . "</td>";
                                                 echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['service_price'] . "</td>";
                                                 echo "<td>" . "<button onclick='document.getElementById('reply_modal').style.display='block''class='button'>Details</button>" . "</td>"; 
@@ -108,14 +108,14 @@
     </div>
 
     <!-- The Modal -->
-   <div id="reply_modal" class="w3-modal">
-       <div class="w3-modal-dialog">
-            <div class="w3-modal-content w3-animate-top w3-card-4">
-                <div class="w3-modal-header">
+   <div id="reply_modal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="w3-modal-title">Request Details</h4>
+                    <h4 class="modal-title">Request Details</h4>
                 </div>
-                <div class="w3-modal-body">
+                <div class="modal-body">
                     <p>
                         <?php
                          require_once 'fragments/connection.php';
@@ -123,19 +123,18 @@
                          $usr = $_SESSION['username'];
                          echo $usr;
 
-                        $query = $pdo->prepare("SELECT start_servicing, end_servicing, request_status, pet_service.service_name, username FROM service_request INNER JOIN user_account ON service_request.account_id = user_account.account_id INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 AND username = '$usr'"); 
+                        $query = $pdo->prepare("SELECT b.username AS sp_username, a.username AS cust_username, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request INNER JOIN user_account AS b ON service_request.account_id = b.account_id  INNER JOIN user_account AS a ON service_request.cust_id = a.account_id  INNER JOIN pet_service ON service_request.service_id = pet_service.service_id WHERE request_status = 01 AND b.username = '$usr'"); 
                         $query->execute();
                         $result = $query->fetchAll();
 
-                        echo "<table>"; 
-
+                        
                         foreach($result as $query){
                             echo "<tr>";
                             echo "<td>" . $query['start_servicing'] . "</td>";
                             echo "<td>" . $query['end_servicing'] . "</td>";
                             echo "<td>" . $query['request_status'] . "</td>";
                             echo "<td>" . $query['service_name'] . "</td>";
-                            echo "<td>" . $query['username'] . "</td>";
+                            echo "<td>" . $query['cust_username'] . "</td>";
                             echo "</tr>";
                         }
 
@@ -152,6 +151,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </div></body>
 </html>    
