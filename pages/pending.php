@@ -17,7 +17,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <!-- TABLE STYLES-->
     <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-    <script src="../assets/js/script.js" defer="defer"></script>
+    <script src="assets/js/script.js" defer="defer"></script>
 </head>
 <body>
     
@@ -64,8 +64,6 @@
                            Pending Requests as of <?php echo date("Y-m-d") ?> 
                         </div>
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example" name="anothercontent">
-                                    <thead>
-
                                         <?php
                                              require_once 'fragments/connection.php';
 
@@ -76,35 +74,24 @@
                                             $result = $query->fetchAll();
                                             
                                             echo "<tr>";
+                                            echo "<th> Date </th>";
                                             echo "<th>Customer</th>";
                                             echo "<th> Service Name </th>";
                                             echo "<th>Amount</th>";
-                                            echo "<th>Expected Duration</th>";
                                             echo "<th>More Details</th>";
                                             echo "</tr>";
 
                                             foreach($result as $query){
-                                                $expd = $query['end_servicing'] - $query['start_servicing'];
                                                 echo "<tr>";
+                                                echo "<td>" . $query['start_servicing'] . "</td>";
                                                 echo "<td>" . $query['username'] . "</td>";
                                                 echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['service_price'] . "</td>";
-                                                echo "<td>" . $expd . "</td>";
-                                                echo "<td> PUT BUTTON HERE </td>";
+                                                echo "<td>" . "<button onclick='document.getElementById('reply_modal').style.display='block''class='button'>Details</button>" . "</td>"; 
                                                 echo "</tr>";
                                             }
-
-                                            echo "</table>";
                                         ?>
 
-                                        <tr>
-                                            <th>Service Name</th>
-                                            
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
                                     </table>
                     
                     <button id="reply_btn" type="button" class="btn btn-default">View Details</button>
@@ -119,15 +106,16 @@
             </div>
         </div>
     </div>
-    
-    <div id="reply_modal" class="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
+
+    <!-- The Modal -->
+   <div id="reply_modal" class="w3-modal">
+       <div class="w3-modal-dialog">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <div class="w3-modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Request Details</h4>
+                    <h4 class="w3-modal-title">Request Details</h4>
                 </div>
-                <div class="modal-body">
+                <div class="w3-modal-body">
                     <p>
                         <?php
                          require_once 'fragments/connection.php';
@@ -139,7 +127,8 @@
                         $query->execute();
                         $result = $query->fetchAll();
 
-                        
+                        echo "<table>"; 
+
                         foreach($result as $query){
                             echo "<tr>";
                             echo "<td>" . $query['start_servicing'] . "</td>";
