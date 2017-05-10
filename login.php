@@ -1,12 +1,16 @@
+<?php
+require 'classes/UserAccount.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
       <title>Pet Services</title><meta charset="UTF-8" />
-    
+
       <link rel="stylesheet" href="pages/assets/css/style.css">
 
-      <style type="text/css"> 
+      <style type="text/css">
       body {
         background-image: url("pages/assets/img/background.jpg");
         background-repeat: no-repeat;
@@ -28,8 +32,8 @@
       <div style="background-color:#006D9C; color:#FFFFFF; padding:3px;text-align:center; font-size:18px;"><b>User Login </b></div>
       <div style="margin:30px">
         <form action="" method="post">
-          <label>Username  :</label><input type="text" name="username" class="box"/><br /><br />
-          <label>Password  :</label><input type="password" name="password" class="box" /><br/><br />
+          <label style="color:white; text-align: center;">Username  :</label><input type="text" name="username" class="box"/><br /><br />
+          <label style="color:white; text-align: center;">Password  :</label><input type="password" name="password" class="box" /><br/><br />
           <input type="submit" name='submit' class="btn btn-info" value="Submit" class="col s6" class='submit'/><br />
         </form>
       </div>
@@ -38,9 +42,6 @@
 
     <?php
 
-      ob_start();
-      session_start();
-
   if(isset($_POST['submit'])){
     //username and password sent from Form
     $username = trim($_POST['username']);
@@ -48,30 +49,50 @@
 
     if($username == '')
       $errMsg .= 'You must enter your Username<br>';
-    
+
     if($password == '')
       $errMsg .= 'You must enter your Password<br>';
-    
+
     //if($errMsg == ''){
         if($username && $password){
-            $connect = new PDO("mysql:host=localhost;dbname=webtek-final;charset=UTF8", "root", "");
-            $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $records = $connect->prepare("SELECT * FROM user_account WHERE username='$username' AND password='$password'");
-            $numberrow = $connect->query("SELECT username, password FROM user_account ");
-            
-      //$records->bindParam(':username', $username);
+            require "pages/fragments/connection.php";
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $queryLogin = "SELECT * FROM user_account WHERE username='$username' AND password='$password'";
+
+            $records = $pdo->query($queryLogin);
             $records->execute();
-            $counter = $numberrow->rowCount();
-            
-            
+            $counter = $records->rowCount();
+
+
             if($counter != 0){
                 while($rows = $records->fetch(PDO::FETCH_ASSOC)){
                     $dbuser = $rows["username"];
                     $dbpass = $rows["password"];
-
-                    
                     if($username == $dbuser && $password == $dbpass ) {
                         session_start();
+
+                        /*
+                         * The whole userAccount information pack into an object and place inside the user session for further usage
+                         * */
+                        $accountId = $rows["account_id"];
+                        $address = $rows["address"];
+                        $firstName = $rows["first_name"];
+                        $lastName = $rows["last_name"];
+                        $middleName = $rows["middle_name"];
+                        $status = $rows["status"];
+                        $emailAddress = $rows["email_address"];
+                        $birthday = $rows["birthday"];
+                        $phoneNumber = $rows["phone_number"];
+                        $roleId = $rows["role_id"];
+                        $userPicture = $rows["user_picture"];
+
+                        $userAccount = new UserAccount($accountId, $dbuser, '', $address, $firstName,
+                            $lastName, $middleName, status, $emailAddress, birthday, $phoneNumber, $roleId, $userPicture);
+
+                        $_SESSION["userAccount"] = $userAccount;
+
+
                         $_SESSION["username"]=$dbuser;
                         header('location:pages/index.php');
 
@@ -82,13 +103,13 @@
             }
 
     }
-        
+
   }
- 
+
 ?>
-        
-        <script src="js/jquery.min.js"></script>  
-       
+
+        <script src="js/jquery.min.js"></script>
+
     </body>
 
 </html>

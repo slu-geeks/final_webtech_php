@@ -63,10 +63,10 @@ function echoActiveClassIfRequestMatches($requestUri)
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT webtek-final.request_name FROM service_request where request_status='00'");
+                                    $query = $pdo->prepare("SELECT count(*) as pendingRequest FROM service_request where request_status=1;");
                                     $query->execute();
                                     $result = $query->fetchAll();
-                                    echo count($result);                                          
+                                    echo $result[0]["pendingRequest"];
 
                                     ?> Pending
                                 </strong>
