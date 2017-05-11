@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pet Services</title><meta charset="UTF-8" />
-	<!-- BOOTSTRAP STYLES-->
-    <link rel="stylesheet" type="text/css" href="assets/css/sb-admin-2.min.css" />
-
-    <link rel="stylesheet" type="text/css" href="assets/js/sb-admin-2.min.js">
+    <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
@@ -56,25 +53,149 @@ function echoActiveClassIfRequestMatches($requestUri)
             <div class="row">    
                 <div class="col-md-3 col-sm-6 col-xs-6">           
                     <div class="panel panel-back noti-box">
-
                         <div class="text-box" >
                             <h4 align="center">
                                 <strong>
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT count(*) as pendingRequest FROM service_request where request_status=1;");
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and start_servicing > curdate()"); 
                                     $query->execute();
                                     $result = $query->fetchAll();
-                                    echo $result[0]["pendingRequest"];
+                                    echo count($result);                                          
 
-                                    ?> Pending
+                                    ?> Pending Requests
                                 </strong>
                             </h4>
+                            <center><a href="pending.php" class="btn btn-primary">View Pending Requests</a></center>
                         </div>
+
                      </div>
                  </div>
-             </div>     
+              
+
+           
+                <div class="col-md-3 col-sm-6 col-xs-6">           
+                    <div class="panel panel-back noti-box">
+                        <div class="text-box" >
+                            <h4 align="center">
+                                <strong>
+                                    <?php
+                                    $datenow = date("Y-m");
+                                    require_once 'fragments/connection.php';
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 04"); 
+                                    $query->execute();
+                                    $result = $query->fetchAll();
+                                    echo count($result);                                          
+
+                                    ?> Finished Services
+                                </strong>
+                            </h4>
+                            <center><a href="finished.php" class="btn btn-primary">View Finished Services</a></center>
+                        </div>
+
+                     </div>
+                 </div>
+             
+
+                  
+                <div class="col-md-3 col-sm-6 col-xs-6">           
+                    <div class="panel panel-back noti-box">
+                        <div class="text-box" >
+                            <h4 align="center">
+                                <strong>
+                                    <?php
+                                    $datenow = date("Y-m");
+                                    require_once 'fragments/connection.php';
+                                    $query = $pdo->prepare("SELECT * FROM service_request where request_status= 03");
+                                    $query->execute();
+                                    $result = $query->fetchAll();
+                                    echo count($result);                                          
+
+                                    ?> On-going Services
+                                </strong>
+                            </h4>
+                            <center><a href="onGoing.php" class="btn btn-primary">View On-going Services</a></center>
+                        </div>
+
+                     </div>
+                 </div>
+             
+                <div class="col-md-3 col-sm-6 col-xs-6">           
+                    <div class="panel panel-back noti-box">
+                        <div class="text-box" >
+                            <h4 align="center">
+                                <strong>
+                                    <?php
+                                    $datenow = date("Y-m");
+                                    require_once 'fragments/connection.php';
+                                    $query = $pdo->prepare("SELECT * FROM feedback where feedback_date = curdate()");
+                                    $query->execute();
+                                    $result = $query->fetchAll();
+                                    echo count($result);                                          
+
+                                    ?> New Feedback
+                                </strong>
+                            </h4>
+                            <center><a href="new-feedback.php" class="btn btn-primary">View Feedback</a></center>
+                        </div>
+
+                     </div>
+                 </div>
+         </div>
+
+                <div class="row" >
+                <div class="panel panel-back noti-box">
+                        <div class="text-box" >
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                               Expired Pending Requests
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="expired" name="anothercontent">
+                                        <thead>
+                                            
+                                        <?php
+                                             require_once 'fragments/connection.php';
+
+                                             $usr = $_SESSION['username'];
+
+                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, service_duration_from FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate()"); 
+                                            $query->execute();
+                                            $result = $query->fetchAll();
+                                            
+                                            echo "<tr>";
+                                            echo "<th>Request ID</th>";
+                                            echo "<th>Service Name</th>";
+                                            echo "<th>Amount</th>";
+                                            echo "<th>Date of Entry</th>";
+                                            echo "<th>Expiration Date</th>";
+                                            echo "</tr>";
+
+                                            foreach($result as $query){
+                                                echo "<tr>";
+                                                echo "<td>" . $query['request_id'] . "</td>";
+                                                echo "<td>" . $query['service_name'] . "</td>";
+                                                echo "<td>" . $query['service_price'] . "</td>";
+                                                echo "<td>" . $query['start_servicing'] . "</td>";
+                                                echo "<td>" . $query['service_duration_from'] . "</td>";
+                                                echo "</tr>";
+                                            }
+
+                                            echo "</table>";
+                                        ?>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          </div>   
+                          </div>
+                          </div>   
+                </div>
+
         </div>
              <!-- /. PAGE INNER  -->
             </div>
