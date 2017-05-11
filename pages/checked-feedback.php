@@ -32,21 +32,22 @@ require '../classes/UserAccount.php';
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>Old FeedBack</h2>   
+                        <h2>Checked FeedBack</h2>   
                     </div>    
                 </div>
-                <div class="jumbotron">
-    
+               <div class="jumbotron">
+                
                     <table class="table table-striped table-border table-hover">
                         <?php   
-                            $status = 3;
+                            $status = 2;
                             include 'fragments/feedback-query.php';
-                        ?>    
+                            
+                        ?>   
                     </table>
                     <div class="modal-container">
                         
                     </div>
-                </div>         
+                </div>            
             </div>
         </div>
     </div>

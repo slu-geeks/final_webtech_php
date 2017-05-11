@@ -31,7 +31,11 @@
             <a href="#"><i class="fa fa-wrench fa-fw"></i> Feedback<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
                 <li>
-                    <a href="new-feedback.php"><i class="fa fa-book fa-3x"></i> New Feedback</a>
+                    <a href="unchecked-feedback.php"><i class="fa fa-book fa-3x"></i> Unchecked</a>
+                    
+                </li>
+                <li>
+                    <a href="checked-feedback.php"><i class="fa fa-book fa-3x"></i> Checked</a>
                 </li>
                 <li>
                     <a  href="old-feedback.php"><i class="fa fa-medkit fa-3x"></i> Old Feedback</a>
