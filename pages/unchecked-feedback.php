@@ -50,5 +50,45 @@ require '../classes/UserAccount.php';
             </div>
         </div>
     </div>
+      <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">
+                    Reply to clients feedback
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label class="control-label">Feedback:</label>
+                    <div class="jumbotron">
+                        <?php
+                            if(isset($_GET['modalbtn'])){
+                                $value = $_GET['modalbtn'];
+                            }
+                        
+                            $qry = $pdo->prepare("select feedback_messages from feedback where feedback_id = '$value';");
+                            $qry->execute();
+                            $result = $qry->fetch(PDO::FETCH_ASSOC); 
+                        
+                            echo "<p>".$result['feedback_messages']."</p>";
+                        ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Message:</label>
+                    <textarea class="form-control" id="message-text"></textarea>
+                  </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+        </div>
+    </div>
 </body>
 </html>    

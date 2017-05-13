@@ -9,6 +9,7 @@
     
  
     echo "<tr>";
+    echo "<th>Feedback ID</th>";
     echo "<th>Customer</th>";
     echo "<th>Date of Feedback</th>";
     echo "<th>Ranking</th>";
@@ -19,23 +20,32 @@
         $middlename = $row['middle_name'];
         $lastname = $row['last_name'];
         $customer = $firstname. " ". $middlename. " ". $lastname;
-
+        $id = $row['feedback_id'];
         echo "<tr>";
+        echo "<td>" .$id ."</td>";
         echo "<td>" .$customer ."</td>";
         echo "<td>" .$row['feedback_date'] ."</td>";
         echo "<td>" .$row['ranking'] ."</td>";
         if($status == 1){
-            echo "<td>" 
-            .'<a class="btn btn-default" data-toggle="modal" href="#myModal" id="modellink">Reply</a>' 
+            echo "<td>"
+            .'<form action="#" method="get">'
+            ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Reply</button>" 
             .'<button type="button" class="details-modal btn btn-default">Done</button>' 
+            .'</form>'
             ."</td>"; 
                                     
         }elseif($status == 2){
-            echo "<td>" 
-            .'<a class="btn btn-default" data-toggle="modal" href="#myModal" id="modellink">Reply</a>' 
+            echo "<td>"
+            .'<form action="#" method="get">'
+            ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Reply</button>"
+                .'</form>'
             ."</td>"; 
         }elseif($status == 3){
-            echo "<td>" .'<a class="btn btn-default" data-toggle="modal" href="#myModal" id="modellink">Details</a>' ."</td>";       
+            echo "<td>"
+                .'<form action="#" method="get">'
+                ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Details</button>"
+                .'</form>'
+                ."</td>";       
         } 
         echo "</tr>";
     }
