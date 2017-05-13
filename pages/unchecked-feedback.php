@@ -39,7 +39,7 @@ require '../classes/UserAccount.php';
         
                     <table class="table table-striped table-border table-hover">
                         <?php   
-                            $status = 1;
+                            $status = 01;
                             include 'fragments/feedback-query.php';
                         ?>
                     </table>
@@ -109,7 +109,7 @@ require '../classes/UserAccount.php';
             
             $reply = $_GET['reply'];
             $value = $_GET['srep'];
-            $sql = $pdo->prepare("update feedback set checked_description = '$reply', feedback_status=3 where feedback_id = '$value';");
+            $sql = $pdo->prepare("update feedback set checked_description = '$reply', feedback_status=03 where feedback_id = '$value';");
             $sql->execute();
         }
     ?>

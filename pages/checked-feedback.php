@@ -39,7 +39,7 @@ require '../classes/UserAccount.php';
                 
                     <table class="table table-striped table-border table-hover">
                         <?php   
-                            $status = 2;
+                            $status = 02;
                             include 'fragments/feedback-query.php';
                             
                         ?>   
