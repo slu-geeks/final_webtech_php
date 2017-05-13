@@ -98,7 +98,7 @@ require '../classes/UserAccount.php';
     </div>
     
     <?php
-    include "fragments/connection.php";
+    //include "fragments/connection.php";
                     
         if(isset($_GET['srep'])){
             

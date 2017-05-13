@@ -100,13 +100,12 @@ require '../classes/UserAccount.php';
     </div>
     
     <?php
-    include "fragments/connection.php";
                     
         if(isset($_GET['srep'])){
             
             $reply = $_GET['reply'];
             $value = $_GET['srep'];
-            $sql = $pdo->prepare("update feedback set feedback_messages = '$reply', feedback_status=3 where feedback_id = '$value';");
+            $sql = $pdo->prepare("update feedback set checked_description = '$reply', feedback_status=3 where feedback_id = '$value';");
             $sql->execute();
         }
     ?>
