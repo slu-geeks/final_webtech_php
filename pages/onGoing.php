@@ -1,24 +1,11 @@
 <!DOCTYPE html>
+<?php
+require '../classes/UserAccount.php';
+?>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Services</title><meta charset="UTF-8" />
-    <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-     <!-- FONTAWESOME STYLES-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-     <!-- MORRIS CHART STYLES-->
-    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-     <!-- CUSTOM STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <!-- TABLE STYLES-->
-    <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-    <script src="assets/js/script.js" defer="defer"></script>
-</head>
+<?php
+    include 'fragments/head.php';
+?>
 <body>
     
        <?php
@@ -51,58 +38,22 @@
                     </div>    
                 </div>
                 <div class="jumbotron">
-                  <?php
-               require_once 'fragments/connection.php';
-                $query = $pdo->prepare("SELECT service_name, service_price, service_duration FROM pet_service");
-                $query->execute();
-                $result = $query->fetchAll();
-
-            ?>  
-                 <!-- /. ROW  -->
-                        <div class="panel-heading">
-                           On-going Services as of <?php echo date("Y-m-d") ?> 
-                        </div>
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example" name="anothercontent">
-                                        <?php
-                                             require_once 'fragments/connection.php';
-
-                                             $usr = $_SESSION['username'];
-
-                                            $query = $pdo->prepare("SELECT request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 03"); 
-                                            $query->execute();
-                                            $result = $query->fetchAll();
-                                            
-                                            echo "<tr>";
-                                            echo "<th> Date </th>";
-                                            echo "<th>Customer</th>";
-                                            echo "<th> Service Name </th>";
-                                            echo "<th>Amount</th>";
-                                            echo "<th>Expected Finish Date</th>";
-                                            echo "</tr>";
-
-                                            foreach($result as $query){
-                                                echo "<tr>";
-                                                echo "<td>" . $query['start_servicing'] . "</td>";
-                                                echo "<td>" . $query['service_name'] . "</td>";
-                                                echo "<td>" . $query['service_name'] . "</td>";
-                                                echo "<td>" . $query['service_price'] . "</td>";
-                                                echo "<td>" . $query['end_servicing'] . "</td>"; 
-                                                echo "</tr>";
-                                            }
-                                        ?>
-
-                                    </table>
-                    
-                    
-
-                    <!--
-                    <button id="reply_btn" type="button" class="btn btn-default">View Details</button>
-                    <button type="button" class="btn btn-primary">Accept</button>
-                    <button type="button" class="btn btn-primary">Reject</button>
-                -->
-
+                    <div class="panel-heading">
+                       On-going Services as of <?php echo date("Y-m-d") ?> 
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example" name="anothercontent">
+                        <?php
+                            include 'fragments/request-query.php';
+                            if(isset($_GET['request_done'])){
+                                $rid=$_GET['request_done'];
+                                $sql = $pdo->prepare("update service_request set request_status=4 where request_id = '$rid';");
+                                $sql->execute();
+                                //echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                        ?>
+                    </table>
                 </div>
-                              
+                           
             </div>
         </div>
     </div>
@@ -151,5 +102,6 @@
                 </div>
             </div>
         </div>
-    </div></body>
+    </div>
+</body>
 </html>    

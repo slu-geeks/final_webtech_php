@@ -96,10 +96,15 @@ require '../classes/UserAccount.php';
         </div>
         </div>
     </div>
-    
+            
     <?php
     //include "fragments/connection.php";
-                    
+         if(isset($_GET['done'])){
+            $id = $_GET['done'];
+            $sql = $pdo->prepare("update feedback set feedback_status=2 where feedback_id = '$id';");
+            $sql->execute();
+            //echo "<meta http-equiv='refresh' content='0'>";
+        }           
         if(isset($_GET['srep'])){
             
             $reply = $_GET['reply'];
