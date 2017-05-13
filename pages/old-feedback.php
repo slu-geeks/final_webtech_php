@@ -57,29 +57,38 @@ require '../classes/UserAccount.php';
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
-                    <?php
-        if(isset($_GET['modalbtn'])){
-            $value = $_GET['modalbtn'];
-            echo $value;
-        }
-    ?>
+                    Feedback Details
                 </h4>
             </div>
             <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="message-text" class="control-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </form>
+                <?php
+                    if(isset($_GET['modalbtn'])){
+                        $value = $_GET['modalbtn'];
+                        $qry = $pdo->prepare("select * from feedback natural join service_request natural join user_account where feedback.feedback_id = '$value'");
+                        $qry->execute();
+                        $result = $qry->fetch(PDO::FETCH_ASSOC);
+                        $feedback = $result['feedback_messages'];
+                        $reply = $result['checked_description'];
+                        echo 
+                            "<span>Feedback Message<span>"
+                            ."<div class='jumbotron'>"
+                            ."<div>"
+                            ."<p> $feedback </p>"
+                            ."</div>"
+                            ."</div>";
+                        echo 
+                            "<span>Checked Description<span>"
+                            ."<div class='jumbotron'>"
+                            ."<div>"
+                            ."<p> $reply </p>"
+                            ."</div>"
+                            ."</div>";
+                            
+                     }
+                ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
         </div>

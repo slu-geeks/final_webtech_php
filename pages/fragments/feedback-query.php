@@ -30,9 +30,15 @@
             echo "<td>"
             .'<form action="#" method="get">'
             ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Reply</button>" 
-            .'<button type="button" class="details-modal btn btn-default">Done</button>' 
+            .'<button type="submit" class="details-modal btn btn-default" name="done">Done</button>' 
             .'</form>'
-            ."</td>"; 
+            ."</td>";
+            
+            if(isset($_GET['done'])){
+                $sql = $pdo->prepare("update feedback set feedback_status=2 where feedback_id = '$id';");
+                $sql->execute();
+                //echo "<meta http-equiv='refresh' content='0'>";
+            }
                                     
         }elseif($status == 2){
             echo "<td>"
@@ -49,5 +55,7 @@
         } 
         echo "</tr>";
     }
+    
+   
                         
 ?>
