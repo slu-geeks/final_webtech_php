@@ -22,6 +22,9 @@
                     <a href="pending.php"><i class="fa fa-book fa-3x"></i> Pending</a>
                 </li>
                 <li>
+                    <a href="onGoing.php"><i class="fa fa-book fa-3x"></i> On-Going </a>
+                </li>
+                <li>
                     <a  href="finished.php"><i class="fa fa-medkit fa-3x"></i> Finished</a>
                 </li>
             </ul>
