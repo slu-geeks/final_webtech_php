@@ -35,16 +35,16 @@ require '../classes/UserAccount.php';
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>On-Going Services</h2>   
+                        <h2>Denied/Cancelled Services</h2>   
                     </div>    
                 </div>
                 <div class="jumbotron">
                     <div class="panel-heading">
-                       On-going Services as of <?php echo date("Y-m-d") ?> 
+                        Denied and Cancelled Services as of <?php echo date("Y-m-d") ?> 
                     </div>
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example" name="anothercontent">
                         <?php
-                            include 'fragments/request-query.php';
+                            include 'fragments/request-query_denied.php';
                             if(isset($_GET['request_done'])){
                                 $rid=$_GET['request_done'];
                                 $sql = $pdo->prepare("update service_request set request_status=4 where request_id = '$rid';");
@@ -75,7 +75,7 @@ require '../classes/UserAccount.php';
                          $usr = $_SESSION['username'];
                          echo $usr;
 
-                        $query = $pdo->prepare("SELECT b.username AS sp_username, a.username AS cust_username, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request INNER JOIN user_account AS b ON service_request.account_id = b.account_id  INNER JOIN user_account AS a ON service_request.cust_id = a.account_id  INNER JOIN pet_service ON service_request.service_id = pet_service.service_id WHERE request_status = 01 AND b.username = '$usr'"); 
+                        $query = $pdo->prepare(""); 
                         $query->execute();
                         $result = $query->fetchAll();
 

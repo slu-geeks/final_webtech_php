@@ -10,6 +10,7 @@ require '../classes/UserAccount.php';
         //Start your session
         session_start();
         if (isset($_SESSION['username']) && $_SESSION['username'] == true) {
+        	echo "You are logged in as, " . $_SESSION['username'] . "!";
         } else {
             header("location: login.php");
         }

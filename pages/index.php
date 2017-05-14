@@ -9,7 +9,7 @@ require '../classes/UserAccount.php';
 <body id="index">
 <?php 
     session_start();
-
+    
     function echoActiveClassIfRequestMatches($requestUri)
     {
         $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");

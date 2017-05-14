@@ -27,6 +27,9 @@
                 <li>
                     <a  href="finished.php"><i class="fa fa-medkit fa-3x"></i> Finished</a>
                 </li>
+                <li>
+                    <a href="denied_cancel.php"><i class="fa fa-book fa-3x"></i> Denied/Cancelled </a>
+                </li>
             </ul>
         </li>
 
