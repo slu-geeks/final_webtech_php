@@ -20,8 +20,8 @@ require 'classes/UserAccount.php';
       }
       </style>
 
-    </head>
-    <body>
+</head>
+<body>
   <div align="center">
     <div style="width:300px; border: solid 1px #006D9C; " align="left">
       <?php
@@ -58,7 +58,7 @@ require 'classes/UserAccount.php';
             require "pages/fragments/connection.php";
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $queryLogin = "SELECT * FROM user_account WHERE username='$username' AND password='$password'";
+            $queryLogin = "SELECT * FROM user_account WHERE username='$username' AND password='$password' and role_id = 2";
 
             $records = $pdo->query($queryLogin);
             $records->execute();
@@ -107,8 +107,6 @@ require 'classes/UserAccount.php';
   }
 
 ?>
-
-        <script src="js/jquery.min.js"></script>
 
     </body>
 

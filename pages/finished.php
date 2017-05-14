@@ -47,7 +47,7 @@
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 04"); 
+                                            $query = $pdo->prepare("SELECT pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 04 and service_request.sp_id = user_account.account_id"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
