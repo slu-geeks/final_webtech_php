@@ -1,3 +1,6 @@
+<?php
+require '../classes/UserAccount.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -45,24 +48,33 @@
                                         <?php
                                              require_once 'fragments/connection.php';
 
-                                             $usr = $_SESSION['username'];
+                                            $usr = $_SESSION['username'];
+                                            $userAccount = $_SESSION["userAccount"];
+                                            $spAccountId = $userAccount->getAccountId();
 
-                                            $query = $pdo->prepare("SELECT pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 04 and service_request.sp_id = user_account.account_id"); 
+                                            $queryPendingRequest = "SELECT * FROM service_request 
+                                                INNER JOIN user_account USING (account_id)
+                                                INNER JOIN pet_service USING (service_id) 
+                                                where request_status = 04 AND service_request.sp_id = $spAccountId;";
+
+                                            $query = $pdo->prepare($queryPendingRequest);
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
                                             echo "<tr>";
+                                            echo "<th>Customer</th>";
+                                            echo "<th> Service Type</th>";
                                             echo "<th>Date Started</th>";
                                             echo "<th>Date Finished</th>";
-                                            echo "<th> Service Name </th>";
                                             echo "<th>Amount</th>";
                                             echo "</tr>";
 
                                             foreach($result as $query){
                                                 echo "<tr>";
+                                                echo "<td>" . $query['username'] . "</td>";
+                                                echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['start_servicing'] . "</td>";
                                                 echo "<td>" . $query['end_servicing'] . "</td>";
-                                                echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['service_price'] . "</td>";
                                                 echo "</tr>";
                                             }
