@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php
     require '../classes/UserAccount.php';
+    session_start();
+    $sessionUserAccount = $_SESSION["userAccount"];
 ?>
 <html lang="en">
 
@@ -13,7 +15,7 @@
 
            <?php
             //Start your session
-            session_start();
+
             if (isset($_SESSION['username']) && $_SESSION['username'] == true) {
             } else {
                 header("location: login.php");
@@ -54,25 +56,25 @@
                              <div class="form-group">
                               <label for="inputFirstname" class="col-lg-2 control-label">First Name</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputFname" placeholder="<?php echo $profileqry['first_name'] ?>" value="">
+                                <input type="text" class="form-control" name="inputFname" placeholder="<?php echo $profileqry['first_name'] ?>" value="<?php echo $_SESSION["userAccount"]->getFirstName()?>">
                               </div>
                             </div>
                                <div class="form-group">
                               <label for="inputMiddlename" class="col-lg-2 control-label">Middle Name</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputMname" placeholder="<?php echo $profileqry['middle_name'] ?>" value="">
+                                <input type="text" class="form-control" name="inputMname" placeholder="<?php echo $profileqry['middle_name'] ?>" value="<?php echo $_SESSION["userAccount"]->getMiddleName()?>">
                               </div>
                             </div>
                                <div class="form-group">
                               <label for="inputLastname" class="col-lg-2 control-label">Last Name</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputLname" placeholder="<?php echo $profileqry['last_name'] ?>" value="">
+                                <input type="text" class="form-control" name="inputLname" placeholder="<?php echo $profileqry['last_name'] ?>" value="<?php echo $_SESSION["userAccount"]->getlastName()?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputUsername" placeholder="<?php echo $profileqry['username'] ?>" value="">
+                                <input type="text" class="form-control" name="inputUsername" placeholder="<?php echo $profileqry['username'] ?>" value="<?php echo $_SESSION["userAccount"]->getUsername()?>">
                               </div>
                             </div>
                                 <div class="form-group">
@@ -84,27 +86,30 @@
                             <div class="form-group">
                               <label for="inputEmail" class="col-lg-2 control-label">Email Address</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputEmail" placeholder="<?php echo $profileqry['email_address'] ?>" value="">
+                                <input type="text" class="form-control" name="inputEmail" placeholder="<?php echo $profileqry['email_address'] ?>" value="<?php echo $_SESSION["userAccount"]->getEmailAddress()?>">
                               </div>
                             </div>
                                 <div class="form-group">
                               <label for="inputPhonenum" class="col-lg-2 control-label">Phone Number</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputPhonenum" placeholder="<?php echo $profileqry['phone_number'] ?>" value="">
+                                <input type="text" class="form-control" name="inputPhonenum" placeholder="<?php echo $profileqry['phone_number'] ?>" value="<?php echo $_SESSION["userAccount"]->getPhoneNumber()?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label for="inputAddress" class="col-lg-2 control-label">Home Address</label>
                               <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputAddress" placeholder="<?php echo $profileqry['address'] ?>" value="">
+                                <input type="text" class="form-control" name="inputAddress" placeholder="<?php echo $profileqry['address'] ?>" value="<?php echo $_SESSION["userAccount"]->getAddress()?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label for="inputBirthday" class="col-lg-2 control-label">Birthday</label>
                               <div class="col-lg-10">
-                                <input type="date" class="form-control" name="inputBirthday" placeholder="<?php echo $profileqry['birthday'] ?>" value="">
+                                <input type="date" class="form-control" name="inputBirthday" placeholder="<?php echo $profileqry['birthday'] ?>" value="<?php echo $_SESSION["userAccount"]->getBirthday()?>">
                               </div>
                             </div>
+                              <?php
+                              /*
+                              ?>
                             <div class="form-group">
                               <label for="inputExp" class="col-lg-2 control-label">Years of Experience</label>
                               <div class="col-lg-10">
@@ -118,7 +123,8 @@
                                 <textarea class="form-control" rows="3" name="selfinfo" placeholder="<?php echo $profileqry['self_introduction']?>" value=""></textarea>
                                 <span class="help-block">Talk about your experiences with pets.</span>
                               </div>
-                            </div>
+                            </div>*/
+                              ?>
                          
                           
                             <div class="form-group">
@@ -219,10 +225,7 @@
         
                         } 
                                        
-                                       
-                        foreach($){
-                            
-                        }
+
                     ?>
                 </div>
             </div>
