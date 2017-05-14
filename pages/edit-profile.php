@@ -209,6 +209,10 @@
                         </form>
 
                     </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1bd4f6e223770ea471980aa1bff1f8d550ab4b48
                     
                     <?php
                         if(isset($_GET['saveprofile'])){
@@ -226,8 +230,14 @@
         
                         } 
                                        
+<<<<<<< HEAD
 
                     ?>
+=======
+                    ?>
+=======
+>>>>>>> fa1338f54a058a3b27f89a1fb4137e8cbc33f945
+>>>>>>> 1bd4f6e223770ea471980aa1bff1f8d550ab4b48
                 </div>
             </div>
         </div>
