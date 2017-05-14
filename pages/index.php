@@ -67,7 +67,8 @@ require '../classes/UserAccount.php';
               
 
            
-                <div class="col-md-3 col-sm-6 col-xs-6">           
+                <div class="col-md-3 col-sm-6 col-xs-6">      
+
                     <div class="panel panel-back noti-box">
                         <div class="text-box" >
                             <h4 align="center">
@@ -153,7 +154,7 @@ require '../classes/UserAccount.php';
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate()"); 
+                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate() AND service_request.sp_id ='$user_id'"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
