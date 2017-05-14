@@ -39,7 +39,20 @@
                         
                         $qry = $pdo->prepare("select * from user_account left join sp_profile using(account_id) where user_account.account_id = '$user_id'");
                         $qry->execute();
-                        $profileqry = $qry->fetch();     
+                        $profileqry = $qry->fetch();
+                        
+                        $username = $profileqry['username'];  
+                        $password = $profileqry['password'];  
+                        $address = $profileqry['address'];  
+                        $cname = $profileqry['first_name'] ." " .$profileqry['middle_name'] ." " .$profileqry['last_name'];  
+                        $emailadd = $profileqry['email_address'];  
+                        $birthday = $profileqry['birthday'];  
+                        $pnum = $profileqry['phone_number'];  
+                        $pic = $profileqry['user_picture'];  
+                        $services = $profileqry['services_offered'];  
+                        $petspec = $profileqry['pet_specialization'];  
+                        $selfinto = $profileqry['self_introduction'];  
+                        $exp = $profileqry['years_experience'];  
                         
                     ?> 
                     <div class="row">
@@ -48,103 +61,40 @@
                         </div>    
                     </div>
                     <div class="jumbotron">
-                        <form class="form-horizontal" action="#" method="get">
-                          <fieldset>
-                            <legend>Profile</legend>
-                             <div class="form-group">
-                              <label for="inputFirstname" class="col-lg-2 control-label">First Name</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputFname" placeholder="<?php echo $profileqry['first_name'] ?>" value="">
-                              </div>
-                            </div>
-                               <div class="form-group">
-                              <label for="inputMiddlename" class="col-lg-2 control-label">Middle Name</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputMname" placeholder="<?php echo $profileqry['middle_name'] ?>" value="">
-                              </div>
-                            </div>
-                               <div class="form-group">
-                              <label for="inputLastname" class="col-lg-2 control-label">Last Name</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputLname" placeholder="<?php echo $profileqry['last_name'] ?>" value="">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputUsername" class="col-lg-2 control-label">Username</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputUsername" placeholder="<?php echo $profileqry['username'] ?>" value="">
-                              </div>
-                            </div>
-                                <div class="form-group">
-                              <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputPassword" placeholder="<?php echo $profileqry['password'] ?>" value="">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputEmail" class="col-lg-2 control-label">Email Address</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputEmail" placeholder="<?php echo $profileqry['email_address'] ?>" value="">
-                              </div>
-                            </div>
-                                <div class="form-group">
-                              <label for="inputPhonenum" class="col-lg-2 control-label">Phone Number</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputPhonenum" placeholder="<?php echo $profileqry['phone_number'] ?>" value="">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputAddress" class="col-lg-2 control-label">Home Address</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputAddress" placeholder="<?php echo $profileqry['address'] ?>" value="">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputBirthday" class="col-lg-2 control-label">Birthday</label>
-                              <div class="col-lg-10">
-                                <input type="date" class="form-control" name="inputBirthday" placeholder="<?php echo $profileqry['birthday'] ?>" value="">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label for="inputExp" class="col-lg-2 control-label">Years of Experience</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputExp" placeholder="<?php echo $profileqry['years_experience'] ?>" value="">
-                              </div>
-                            </div>
-            
-                            <div class="form-group">
-                              <label for="selfinfo" class="col-lg-2 control-label">Self Introduction</label>
-                              <div class="col-lg-10">
-                                <textarea class="form-control" rows="3" name="selfinfo" placeholder="<?php echo $profileqry['self_introduction']?>" value=""></textarea>
-                                <span class="help-block">Talk about your experiences with pets.</span>
-                              </div>
-                            </div>
-                         
-                          
+
+                        <div>
+                            <img scr="<?
+                                      
+                                      header('content-Type: image/jpeg');
+                                      php echo $pic;
+                                      ?> 
+                                      "/> 
+                        </div>
+                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Services Offerred</label>
                                 <div class="col-lg-10">
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="grooming">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1">
                                         Grooming
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="sitting">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios2" value="option2">
                                         Sitting
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="vaccine">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios3" value="option3">
                                         Vaccine
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="medical service">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios3" value="option3">
                                         Medical Services
                                         </label>
                                     </div>
@@ -155,53 +105,57 @@
                                 <div class="col-lg-10">
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="dog">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1">
                                         Dog
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="cat">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios2" value="option2">
                                         Cat
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="snake">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios2" value="option2">
                                         Snake
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="horse">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios3" value="option3">
                                         Horse
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="fish">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios3" value="option3">
                                         Fish
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="hamster">
+                                        <input type="checkbox" name="optionsRadios" id="optionsRadios3" value="option3">
                                         Hamster
                                         </label>
                                     </div>
 
                                 </div>
+                                <label for="textArea" class="col-lg-2 control-label">About Yourself</label>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control" rows="3" id="textArea"></textarea>
                                 </div>
-                                   <div class="form-group">
-                                  <div class="col-lg-10 col-lg-offset-2">
-                                    <button type="reset" class="btn btn-default">Cancel</button>
-                                    <button type="submit" class="btn btn-primary" id="saveprofile">Submit</button>
-                                  </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="submit" class="btn btn-success btn-lg clearfix " name="update"><i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i></button>
+                                    <a href="view-profile.php" onclick=""><button type="button" class="btn btn-success btn-lg clearfix" name="update"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button></a>
                                 </div>
-                            </fieldset>
+                            </div>
                         </form>
 
                     </div>
+<<<<<<< HEAD
                     
                     <?php
                         if(isset($_GET['saveprofile'])){
@@ -220,6 +174,8 @@
                         } 
                                        
                     ?>
+=======
+>>>>>>> fa1338f54a058a3b27f89a1fb4137e8cbc33f945
                 </div>
             </div>
         </div>
