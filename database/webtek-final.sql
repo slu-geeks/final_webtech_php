@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2017 at 06:04 PM
+-- Generation Time: May 14, 2017 at 06:16 AM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -49,8 +49,8 @@ INSERT INTO `feedback` (`feedback_id`, `ranking`, `contacting_phone_number`, `fe
 (4, 4, '09062652210', 'Great Work Guys', '2017-04-02', NULL, 1, NULL, 5),
 (5, 4, '09062652238', 'My dog is now so lively thank to you guys', '2017-04-14', NULL, 1, NULL, 2),
 (6, 9, '09062652288', 'Good work boys', '2017-04-02', NULL, 1, NULL, 3),
-(7, 2, '09062652224', 'Thank you very much for taking care of my dog', '2017-04-03', NULL, 3, 'were glad that you loked our service sir', 9),
-(8, 4, '09062652221', 'Great Job', '2017-04-06', NULL, 2, NULL, 1),
+(7, 2, '09062652224', 'Thank you very much for taking care of my dog', '2017-04-03', NULL, 1, NULL, 9),
+(8, 4, '09062652221', 'Great Job', '2017-04-06', NULL, 1, NULL, 1),
 (9, 7, '09062652283', 'Magnificent work, thank you', '2017-04-06', NULL, 1, NULL, 10),
 (10, 8, '09062652280', 'Thanks', '2017-04-13', NULL, 1, NULL, 7);
 
@@ -160,6 +160,21 @@ INSERT INTO `service_request` (`request_id`, `request_date`, `start_servicing`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sp_profile`
+--
+
+CREATE TABLE `sp_profile` (
+  `account_id` int(11) NOT NULL,
+  `sp_profile_id` int(11) NOT NULL,
+  `services_offered` varchar(255) DEFAULT NULL,
+  `pet_specialization` varchar(255) DEFAULT NULL,
+  `self_introduction` varchar(255) DEFAULT NULL,
+  `years_experience` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_account`
 --
 
@@ -240,6 +255,12 @@ ALTER TABLE `service_request`
   ADD KEY `fk_pet_service_idx` (`service_id`);
 
 --
+-- Indexes for table `sp_profile`
+--
+ALTER TABLE `sp_profile`
+  ADD PRIMARY KEY (`account_id`,`sp_profile_id`);
+
+--
 -- Indexes for table `user_account`
 --
 ALTER TABLE `user_account`
@@ -283,6 +304,12 @@ ALTER TABLE `pet_service`
 --
 ALTER TABLE `service_request`
   ADD CONSTRAINT `FK_sp_id` FOREIGN KEY (`sp_id`) REFERENCES `user_account` (`account_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `sp_profile`
+--
+ALTER TABLE `sp_profile`
+  ADD CONSTRAINT `sp_key` FOREIGN KEY (`account_id`) REFERENCES `user_account` (`account_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_account`
