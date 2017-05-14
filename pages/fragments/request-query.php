@@ -25,6 +25,7 @@
         echo "<td>" . $query['end_servicing'] . "</td>";
         echo "<td>";
         echo "<form action='#' method='get'>";
+        echo "<button type='submit' class='details-modal btn btn-default' name='request_cancel' value='$rid'>Cancel</button>"; // NEEED TO FIX THIS TO ADD ENTRY INTO CANCELLED TAB BY CHANGING STATUS TO 2
         echo "<button type='submit' class='details-modal btn btn-default' name='request_done' value='$rid'>Done</button>"; 
         echo "</form>";
         echo "</td>";

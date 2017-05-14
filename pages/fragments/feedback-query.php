@@ -3,8 +3,7 @@
 
     $user = $_SESSION["userAccount"];
     $user_id = $user->getAccountId();
-    $query = $pdo->prepare("select * from feedback join service_request using(request_id) natural join user_account where feedback_status = '$status'and
-    service_request.sp_id = '$user_id'");
+    $query = $pdo->prepare("select * from feedback INNER JOIN service_request using(request_id) INNER JOIN user_account cust using (account_id) INNER JOIN pet_service using (service_id) where feedback_status = '$status'and service_request.sp_id = '$user_id'");
     $query->execute();
     
  
@@ -12,7 +11,9 @@
     echo "<th>Feedback ID</th>";
     echo "<th>Customer</th>";
     echo "<th>Date of Feedback</th>";
+    echo "<th>Service</th>";
     echo "<th>Ranking</th>";
+    echo "<th>Message</th>";
     echo "<th>Action</th>";
     echo "</tr>";
     while ($row = $query->fetch(PDO::FETCH_ASSOC)){
@@ -25,7 +26,10 @@
         echo "<td>" .$id ."</td>";
         echo "<td>" .$customer ."</td>";
         echo "<td>" .$row['feedback_date'] ."</td>";
+        echo "<td>" .$row['service_name'] ."</td>";
         echo "<td>" .$row['ranking'] ."</td>";
+        echo "<td>" .$row['feedback_messages'] ."</td>";
+        
         if($status == 01){
             echo "<td>"
             .'<form action="#" method="get">'

@@ -62,12 +62,8 @@ function echoActiveClassIfRequestMatches($requestUri)
                     $userAccount = $_SESSION["userAccount"];
                     $spAccountId = $userAccount->getAccountId();
 
-                    $queryPendingRequest = "SELECT * FROM service_request 
-                                                INNER JOIN user_account USING (account_id)
-                                                INNER JOIN pet_service USING (service_id) 
-                                                where request_status = 1 AND service_request.sp_id = $spAccountId;";
+                    $query = $pdo->prepare("SELECT * FROM service_request INNER JOIN user_account USING (account_id) INNER JOIN pet_service USING (service_id) where request_status = 1 AND service_request.sp_id = $spAccountId AND start_servicing > curdate();");
 
-                    $query = $pdo->prepare($queryPendingRequest);
                     $query->execute();
                     $result = $query->fetchAll();
 
@@ -90,10 +86,9 @@ function echoActiveClassIfRequestMatches($requestUri)
                             <form method='post' action=''>
                             <input type='hidden' value='' />
                             <select>
-                                         <option selected='selected' value='1'>Pending</option>
-                                         <option value='2'>Approved</option>
-                                         <option value='3'>Servicing</option>
-                                        <option value='4'>Finished</option>
+                                         <option selected='selected' value='1'>Change Status</option>
+                                         <option value='2'>Denied</option>
+                                         <option value='3'>Approve</option>
                             </select>
                             
 </form>
