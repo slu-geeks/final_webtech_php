@@ -156,6 +156,27 @@
                         </form>
 
                     </div>
+<<<<<<< HEAD
+                    
+                    <?php
+                        if(isset($_GET['saveprofile'])){
+                            $username = $_GET['inputUsername'];  
+                            $password = $_GET['inputPassword'];  
+                            $address = $_GET['inputAddress'];  
+                            $fname = $_GET['inputFname'];
+                            $mname = $_GET['inputMname'];
+                            $lname = $_GET['inputLname'];  
+                            $emailadd = $_GET['inputEmail'];  
+                            $birthday = $_GET['inputBirthday']; 
+                            $phonenum = $_GET['inputPhonenum'];
+                            $selfinfo = $_GET['selfinfo'];
+                            $yearexp = $_GET['inputExp'];
+        
+                        } 
+                                       
+                    ?>
+=======
+>>>>>>> fa1338f54a058a3b27f89a1fb4137e8cbc33f945
                 </div>
             </div>
         </div>
