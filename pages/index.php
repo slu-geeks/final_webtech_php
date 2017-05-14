@@ -51,7 +51,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id' and start_servicing > curdate()"); 
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id' and start_servicing > curdate() and sp_id='$user_id'"); 
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          
@@ -75,7 +75,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 04"); 
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 04 and sp_id='$user_id' "); 
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          
@@ -153,7 +153,7 @@ require '../classes/UserAccount.php';
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, service_duration_from FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate()"); 
+                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate()"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
@@ -161,8 +161,8 @@ require '../classes/UserAccount.php';
                                             echo "<th>Request ID</th>";
                                             echo "<th>Service Name</th>";
                                             echo "<th>Amount</th>";
-                                            echo "<th>Date of Entry</th>";
-                                            echo "<th>Expiration Date</th>";
+                                            echo "<th>Start of Service</th>";
+                                            echo "<th>End of Service</th>";
                                             echo "</tr>";
 
                                             foreach($result as $query){
@@ -171,7 +171,7 @@ require '../classes/UserAccount.php';
                                                 echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['service_price'] . "</td>";
                                                 echo "<td>" . $query['start_servicing'] . "</td>";
-                                                echo "<td>" . $query['service_duration_from'] . "</td>";
+                                                echo "<td>" . $query['end_servicing'] . "</td>";
                                                 echo "</tr>";
                                             }
 
