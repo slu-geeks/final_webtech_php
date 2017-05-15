@@ -27,9 +27,10 @@ SELECT request_id, request_status, pet_service.service_name, start_servicing, en
         echo "<td>" . $query['service_price'] . "</td>";
         echo "<td>" . $query['end_servicing'] . "</td>";
         echo "<td>";
-        echo "<form action='#' method='get'>";
-        echo "<button type='submit' class='details-modal btn btn-default' name='request_cancel' value='$rid'>Cancel</button>"; // NEEED TO FIX THIS TO ADD ENTRY INTO CANCELLED TAB BY CHANGING STATUS TO 5
-        echo "<button type='submit' class='details-modal btn btn-default' name='request_done' value='$rid'>Done</button>";
+        echo "<form action='' method='post' onSubmit='window.location.reload()'>";
+        echo "<input type='hidden' name='requestId' value='$rid' />";
+        echo "<input type='submit' class='details-modal btn btn-default' name='request_cancel' value='Cancel' />"; // NEEED TO FIX THIS TO ADD ENTRY INTO CANCELLED TAB BY CHANGING STATUS TO 5
+        echo "<input type='submit' class='details-modal btn btn-default' name='request_done' value='Done' />";
         echo "</form>";
         echo "</td>";
         echo "</tr>";
