@@ -37,7 +37,9 @@ require '../classes/UserAccount.php';
                     </div>    
                 </div>
                 <div class="jumbotron">
-    
+                <div class="panel-heading">
+                    Old Feedback  as of <?php echo date("Y-m-d") ?>
+                </div>
                     <table class="table table-striped table-border table-hover">
                         <?php   
                             $status = 03;

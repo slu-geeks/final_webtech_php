@@ -54,9 +54,9 @@
 
                     if($password == $rePassword && $password != ''){
                         $updateWithPass = "update user_account 
-                                                      set username=:username, password=:password, address=:address,
-                                                      first_name=:fname, middle_name=:mname, last_name=:lname, email_address=:emailadd,
-                                                      birthday=:birthday, phone_number=:phonenum
+                                                      set username = :username, password = :password, address = :address,
+                                                      first_name = :fname, middle_name = :mname, last_name = :lname, email_address = :emailadd,
+                                                      birthday = :birthday, phone_number = :phonenum
                                                     where account_id = '$accountId';";
                         $sql = $pdo->prepare($updateWithPass);
                         $sql->bindParam(':username', $username);
@@ -80,9 +80,9 @@
 
                     }else{
                         $updateWithoutPass = "update user_account 
-                                                      set username=:username, address=:address,
-                                                      first_name=:fname, middle_name=:mname, last_name=:lname, email_address=:emailadd,
-                                                      birthday=:birthday, phone_number=:phonenum
+                                                      set username = :username, address = :address,
+                                                      first_name = :fname, middle_name = :mname, last_name = :lname, email_address = :emailadd,
+                                                      birthday= :birthday, phone_number= :phonenum
                                                     where account_id = '$accountId';";
                         $sql = $pdo->prepare($updateWithoutPass);
                         $sql->bindParam(':username', $username);

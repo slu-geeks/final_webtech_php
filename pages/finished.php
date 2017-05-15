@@ -63,6 +63,7 @@ require '../classes/UserAccount.php';
                                             $result = $query->fetchAll();
                                             
                                             echo "<tr>";
+                                            echo "<th>Request ID</th>";
                                             echo "<th>Customer</th>";
                                             echo "<th> Service Type</th>";
                                             echo "<th>Date Started</th>";
@@ -72,6 +73,7 @@ require '../classes/UserAccount.php';
 
                                             foreach($result as $query){
                                                 echo "<tr>";
+                                                echo "<td>" . $query['request_id'] . "</td>";
                                                 echo "<td>" . $query['username'] . "</td>";
                                                 echo "<td>" . $query['service_name'] . "</td>";
                                                 echo "<td>" . $query['start_servicing'] . "</td>";

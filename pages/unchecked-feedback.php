@@ -36,9 +36,13 @@ require '../classes/UserAccount.php';
                         <h2>Unchecked FeedBack</h2>   
                     </div>    
                 </div>
+
                 <div class="jumbotron">
-        
-                    <table class="table table-striped table-border table-hover">
+                <div class="panel-heading">
+                    Unchecked Feedback as of <?php echo date("Y-m-d") ?>
+                </div>
+
+                <table class="table table-striped table-border table-hover">
                         <?php   
                             $status = 01;
                             include 'fragments/feedback-query.php';

@@ -2,14 +2,12 @@
     $user= $_SESSION['userAccount'];
     $usr = $_SESSION['username'];
     $user_id = $user->getAccountId();
-    $query = $pdo->prepare("
-SELECT request_id, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request
- inner join pet_service using (service_id) 
- WHERE request_status = 03 and service_request.sp_id = '$user_id';");
+    $query = $pdo->prepare("SELECT request_id, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 03 and service_request.sp_id = '$user_id' and start_servicing > curdate();");
     $query->execute();
     $result = $query->fetchAll();
 
     echo "<tr>";
+    echo "<th>Request ID </th>";
     echo "<th>Date </th>";
     echo "<th>Customer</th>";
     echo "<th>Service Name </th>";
@@ -21,6 +19,7 @@ SELECT request_id, request_status, pet_service.service_name, start_servicing, en
     foreach($result as $query){
         $rid = $query['request_id'];
         echo "<tr>";
+        echo "<td>" . $query['request_id'] . "</td>";
         echo "<td>" . $query['start_servicing'] . "</td>";
         echo "<td>" . $query['service_name'] . "</td>";
         echo "<td>" . $query['service_name'] . "</td>";
