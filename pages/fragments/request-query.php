@@ -2,7 +2,10 @@
     $user= $_SESSION['userAccount'];
     $usr = $_SESSION['username'];
     $user_id = $user->getAccountId();
-    $query = $pdo->prepare("SELECT request_id, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request inner join pet_service using (service_id) WHERE request_status = 03 and service_request.sp_id = '$user_id';"); 
+    $query = $pdo->prepare("
+SELECT request_id, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request
+ inner join pet_service using (service_id) 
+ WHERE request_status = 03 and service_request.sp_id = '$user_id';");
     $query->execute();
     $result = $query->fetchAll();
 
@@ -26,7 +29,7 @@
         echo "<td>";
         echo "<form action='#' method='get'>";
         echo "<button type='submit' class='details-modal btn btn-default' name='request_cancel' value='$rid'>Cancel</button>"; // NEEED TO FIX THIS TO ADD ENTRY INTO CANCELLED TAB BY CHANGING STATUS TO 2
-        echo "<button type='submit' class='details-modal btn btn-default' name='request_done' value='$rid'>Done</button>"; 
+        //echo "<button type='submit' class='details-modal btn btn-default' name='request_done' value='$rid'>Done</button>";
         echo "</form>";
         echo "</td>";
         echo "</tr>";

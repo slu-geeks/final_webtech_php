@@ -42,6 +42,18 @@ function echoActiveClassIfRequestMatches($requestUri)
             <div class="jumbotron">
                 <?php
                 require_once 'fragments/connection.php';
+
+                if(isset($_POST['submit'])){
+                    foreach($_POST['approval'] as $item){
+                        if($item == 1){
+                            continue;
+                        }
+                        $rid = $_POST['requestId'];
+                        $sql = $pdo->prepare("update service_request set request_status= $item where request_id = $rid;");
+                        $sql->execute();
+                    }
+                }
+
                 $query = $pdo->prepare("SELECT service_name, service_price, service_duration FROM pet_service");
                 $query->execute();
                 $result = $query->fetchAll();
@@ -51,9 +63,9 @@ function echoActiveClassIfRequestMatches($requestUri)
                 <div class="panel-heading">
                     Pending Requests as of <?php echo date("Y-m-d") ?>
                 </div>
-                <table class="table table-striped table-bordered table-hover" id="dataTables-example"
+                <form method='post' action=''>
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example"
                        name="anothercontent">
-                    <thead>
 
                     <?php
                     require_once 'fragments/connection.php';
@@ -62,7 +74,7 @@ function echoActiveClassIfRequestMatches($requestUri)
                     $userAccount = $_SESSION["userAccount"];
                     $spAccountId = $userAccount->getAccountId();
 
-                    $query = $pdo->prepare("SELECT * FROM service_request INNER JOIN user_account USING (account_id) INNER JOIN pet_service USING (service_id) where request_status = 1 AND service_request.sp_id = $spAccountId AND start_servicing > curdate();");
+                    $query = $pdo->prepare("SELECT * FROM service_request INNER JOIN user_account USING (account_id) INNER JOIN pet_service USING (service_id) where request_status = 1 AND service_request.sp_id = $spAccountId;");
 
                     $query->execute();
                     $result = $query->fetchAll();
@@ -71,45 +83,34 @@ function echoActiveClassIfRequestMatches($requestUri)
                     echo "<th>Customer</th>";
                     echo "<th> Service Name </th>";
                     echo "<th>Amount</th>";
-                    echo "<th>Expected Duration</th>";
+                    /*echo "<th>Expected Duration</th>";*/
                     echo "<th>More Details</th>";
                     echo "</tr>";
 
                     foreach ($result as $query) {
-                        $expd = $query['end_servicing'] - $query['start_servicing'];
+                        //$expd = $query['end_servicing'] - $query['start_servicing'];
                         echo "<tr>";
-                        echo "<td>" . $query['username'] . "</td>";
-                        echo "<td>" . $query['service_name'] . "</td>";
-                        echo "<td>" . $query['service_price'] . "</td>";
-                        echo "<td>" . $expd . "</td>";
-                        echo "<td> 
-                            <form method='post' action=''>
-                            <input type='hidden' value='' />
-                            <select>
-                                         <option selected='selected' value='1'>Change Status</option>
-                                         <option value='2'>Denied</option>
-                                         <option value='3'>Approve</option>
-                            </select>
-                            
-</form>
-                        </td>";
+                        echo "<input type='hidden' name='requestId' value='" . $query['request_id'] ."' />";
+                            echo "<td>" . $query['username'] . "</td>";
+                            echo "<td>" . $query['service_name'] . "</td>";
+                            echo "<td>" . $query['service_price'] . "</td>";
+    /*                        echo "<td>" . $expd . "</td>";*/
+                            echo "<td>
+                                <select name='approval[]'>                                        
+                                             <option value='1'>Not Checked</option>
+                                             <option value='3'>Approve for servicing</option>
+                                </select>                           
+                            </td>";
                         echo "</tr>";
                     }
 
-                    echo "</table>";
                     ?>
+                    </table>
+                    <input id="reply_btn" type="submit" name='submit' value="Submit" class="btn btn-default" />
+                    </form>
 
-                    <tr>
-                        <th><!--Service Name--></th>
 
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-
-                <button id="reply_btn" type="button" class="btn btn-default">Submit Requests</button>
 
                 <!--
                 <button type="button" class="btn btn-primary">Accept</button>

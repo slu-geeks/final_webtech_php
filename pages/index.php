@@ -51,7 +51,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id' and start_servicing > curdate() and sp_id='$user_id'"); 
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id'");
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          

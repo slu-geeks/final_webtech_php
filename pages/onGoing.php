@@ -75,7 +75,14 @@ require '../classes/UserAccount.php';
                          $usr = $_SESSION['username'];
                          echo $usr;
 
-                        $query = $pdo->prepare("SELECT b.username AS sp_username, a.username AS cust_username, request_status, pet_service.service_name, start_servicing, end_servicing,  service_price FROM service_request INNER JOIN user_account AS b ON service_request.account_id = b.account_id  INNER JOIN user_account AS a ON service_request.cust_id = a.account_id  INNER JOIN pet_service ON service_request.service_id = pet_service.service_id WHERE request_status = 01 AND b.username = '$usr'"); 
+                        $query = $pdo->prepare("
+                                      SELECT b.username AS sp_username, a.username AS cust_username, 
+                                      request_status, pet_service.service_name, start_servicing, end_servicing,  service_price 
+                                              FROM service_request 
+                                              INNER JOIN user_account AS b ON service_request.sp_id = b.account_id  
+                                              INNER JOIN user_account AS a ON service_request.account_id = a.account_id  
+                                              INNER JOIN pet_service ON service_request.service_id = pet_service.service_id 
+                                              WHERE request_status = 03 AND b.username = '$usr';");
                         $query->execute();
                         $result = $query->fetchAll();
 
