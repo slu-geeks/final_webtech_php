@@ -71,7 +71,7 @@ require 'classes/UserAccount.php';
                         $userPicture = $rows["user_picture"];
 
                         $userAccount = new UserAccount($accountId, $dbuser, '', $address, $firstName,
-                            $lastName, $middleName, status, $emailAddress, birthday, $phoneNumber, $roleId, $userPicture);
+                            $lastName, $middleName, $status, $emailAddress, $birthday, $phoneNumber, $roleId, $userPicture);
 
                         $_SESSION["userAccount"] = $userAccount;
 

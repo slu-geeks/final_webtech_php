@@ -31,6 +31,67 @@
             <div id="wrapper">
                 <?php include 'fragments/page-head.php'; ?>
                 <!-- /. NAV TOP  -->
+                <?php
+                if(isset($_POST['saveprofile'])){
+                    $account = $_SESSION["userAccount"];
+                    $accountId = $account->getAccountId();
+
+
+                    $username = $_POST['inputUsername'];
+                    $password = $_POST['inputPassword'];
+                    $rePassword = $_POST['inputRePassword'];
+                    $address = $_POST['inputAddress'];
+                    $fname = $_POST['inputFname'];
+                    $mname = $_POST['inputMname'];
+                    $lname = $_POST['inputLname'];
+                    $emailadd = $_POST['inputEmail'];
+                    $birthday = $_POST['inputBirthday'];
+                    $phonenum = $_POST['inputPhonenum'];
+                    //$selfinfo = $_POST['selfinfo'];
+                    //$yearexp = $_POST['inputExp'];
+
+                    include "fragments/connection.php";
+
+                    if($password == $rePassword && $password != ''){
+                        $updateWithPass = "update user_account 
+                                                      set username=:username, password=:password, address=:address,
+                                                      first_name=:fname, middle_name=:mname, last_name=:lname, email_address=:emailadd,
+                                                      birthday=:birthday, phone_number=:phonenum
+                                                    where account_id = '$accountId';";
+                        $sql = $pdo->prepare($updateWithPass);
+                        $sql->bindParam(':username', $username);
+                        $sql->bindParam(':password', $password);
+                        $sql->bindParam(':address', $address);
+                        $sql->bindParam(':fname', $fname);
+                        $sql->bindParam(':mname', $mname);
+                        $sql->bindParam(':lname', $lname);
+                        $sql->bindParam(':emailadd', $emailadd);
+                        $sql->bindParam(':birthday', $birthday);
+                        $sql->bindParam(':phonenum', $phonenum);
+                        $sql->execute();
+                        header('view-profile.php');
+
+                    }else{
+                        $updateWithoutPass = "update user_account 
+                                                      set username=:username, address=:address,
+                                                      first_name=:fname, middle_name=:mname, last_name=:lname, email_address=:emailadd,
+                                                      birthday=:birthday, phone_number=:phonenum
+                                                    where account_id = '$accountId';";
+                        $sql = $pdo->prepare($updateWithoutPass);
+                        $sql->bindParam(':username', $username);
+                        $sql->bindParam(':address', $address);
+                        $sql->bindParam(':fname', $fname);
+                        $sql->bindParam(':mname', $mname);
+                        $sql->bindParam(':lname', $lname);
+                        $sql->bindParam(':emailadd', $emailadd);
+                        $sql->bindParam(':birthday', $birthday);
+                        $sql->bindParam(':phonenum', $phonenum);
+                        $sql->execute();
+                        header('view-profile.php');
+                    }
+                }
+
+                ?>
                 <?php include 'fragments/sidebar-nav.php'; ?>
                 <!-- /. NAV SIDE  -->
                 <div id="page-wrapper" >
@@ -51,7 +112,7 @@
                         </div>    
                     </div>
                     <div class="jumbotron">
-                        <form class="form-horizontal" action="#" method="get">
+                        <form class="form-horizontal" action="" method="post">
                           <fieldset>
                             <legend>Profile</legend>
                              <div class="form-group">
@@ -84,6 +145,12 @@
                                 <input type="text" class="form-control" name="inputPassword" placeholder="<?php echo $profileqry['password'] ?>" value="">
                               </div>
                             </div>
+                              <div class="form-group">
+                                  <label for="inputRePassword" class="col-lg-2 control-label">Repeat Password</label>
+                                  <div class="col-lg-10">
+                                      <input type="text" class="form-control" name="inputRePassword" placeholder="<?php echo $profileqry['password'] ?>" value="">
+                                  </div>
+                            </div>
                             <div class="form-group">
                               <label for="inputEmail" class="col-lg-2 control-label">Email Address</label>
                               <div class="col-lg-10">
@@ -109,125 +176,18 @@
                               </div>
                             </div>
                               <?php
-                              /*
+                                include 'draft.php';
                               ?>
-                            <div class="form-group">
-                              <label for="inputExp" class="col-lg-2 control-label">Years of Experience</label>
-                              <div class="col-lg-10">
-                                <input type="text" class="form-control" name="inputExp" placeholder="<?php echo $profileqry['years_experience'] ?>" value="">
-                              </div>
-                            </div>
-            
-                            <div class="form-group">
-                              <label for="selfinfo" class="col-lg-2 control-label">Self Introduction</label>
-                              <div class="col-lg-10">
-                                <textarea class="form-control" rows="3" name="selfinfo" placeholder="<?php echo $profileqry['self_introduction']?>" value=""></textarea>
-                                <span class="help-block">Talk about your experiences with pets.</span>
-                              </div>
-                            </div>*/
-                              ?>
-                         
-                          
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">Services Offerred</label>
-                                <div class="col-lg-10">
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="grooming">
-                                        Grooming
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="sitting">
-                                        Sitting
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="vaccine">
-                                        Vaccine
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="serveoption" value="medical service">
-                                        Medical Services
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">Specialization</label>
-                                <div class="col-lg-10">
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="dog">
-                                        Dog
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="cat">
-                                        Cat
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="snake">
-                                        Snake
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="horse">
-                                        Horse
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="fish">
-                                        Fish
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                        <input type="checkbox" name="optionsRadios" id="specoption" value="hamster">
-                                        Hamster
-                                        </label>
-                                    </div>
-
-                                </div>
-                                </div>
                                    <div class="form-group">
                                   <div class="col-lg-10 col-lg-offset-2">
                                     <button type="reset" class="btn btn-default">Cancel</button>
-                                    <button type="submit" class="btn btn-primary" id="saveprofile">Submit</button>
+                                    <button type="submit" name="saveprofile" class="btn btn-primary" id="saveprofile" value="submit">Submit</button>
                                   </div>
                                 </div>
                             </fieldset>
                         </form>
 
                     </div>
-                    
-                    <?php
-                        if(isset($_GET['saveprofile'])){
-                            $username = $_GET['inputUsername'];  
-                            $password = $_GET['inputPassword'];  
-                            $address = $_GET['inputAddress'];  
-                            $fname = $_GET['inputFname'];
-                            $mname = $_GET['inputMname'];
-                            $lname = $_GET['inputLname'];  
-                            $emailadd = $_GET['inputEmail'];  
-                            $birthday = $_GET['inputBirthday']; 
-                            $phonenum = $_GET['inputPhonenum'];
-                            $selfinfo = $_GET['selfinfo'];
-                            $yearexp = $_GET['inputExp'];
-        
-                        } 
-                                       
-
-                    ?>
                 </div>
             </div>
         </div>
