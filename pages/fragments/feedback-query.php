@@ -3,7 +3,11 @@
 
     $user = $_SESSION["userAccount"];
     $user_id = $user->getAccountId();
-    $query = $pdo->prepare("select * from feedback INNER JOIN service_request using(request_id) INNER JOIN user_account cust using (account_id) INNER JOIN pet_service using (service_id) where feedback_status = '$status'and service_request.sp_id = '$user_id'");
+    $query = $pdo->prepare("select * from feedback 
+                    INNER JOIN service_request using(request_id) 
+                    INNER JOIN user_account cust using (account_id) 
+                    INNER JOIN pet_service using (service_id) 
+                    where feedback_status = '$status'and service_request.sp_id = '$user_id'");
     $query->execute();
     
  
@@ -29,15 +33,17 @@
         echo "<td>" .$row['service_name'] ."</td>";
         echo "<td>" .$row['ranking'] ."</td>";
         echo "<td>" .$row['feedback_messages'] ."</td>";
-        
+        $feedbackMsg = $row['feedback_messages'];
         if($status == 01){
-            echo "<td>"
-            .'<form action="#" method="get">'
-            ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Reply</button>" 
-            ."<button type='submit' class='details-modal btn btn-default' name='done' value='$id'>Done</button>" 
-            .'</form>'
-            ."</td>";
-                                    
+            echo <<< block
+<td>
+            <form action="#" method="get">
+            <button id="replyToMessage" type="submit" class="modellink btn btn-default" data-toggle="modal" data-target="#myModal" name="modalbtn" onclick="setUncheckedId('$id:::::$feedbackMsg')">Reply</button>
+            <button type='submit' class='details-modal btn btn-default' name='done' value='$id'>Done</button>
+            </form>
+            </td>
+block;
+
         }elseif($status == 02){
             echo "<td>"
             .'<form action="#" method="get">'

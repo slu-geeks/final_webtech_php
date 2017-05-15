@@ -18,5 +18,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/tether.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/helper.js"></script>
+
     
 </head>

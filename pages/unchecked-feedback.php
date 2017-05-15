@@ -60,59 +60,49 @@ require '../classes/UserAccount.php';
                     Reply to clients feedback
                 </h4>
             </div>
-              <?php
-               echo '<form action="#" method="get" role="form" id="editform">';
-                echo '<div class="modal-body">';
+              <form action="" method="post" role="form" id="editform">
+                <input id="userFeedbackMessageId" name="feedbackId" type="hidden" value=""/>
+                  <div class="modal-body">
 
-                  echo '<div class="form-group">';
-                    echo '<label class="control-label">Feedback:</label>';
-                    echo '<div class="jumbotron">';
-                        
-                            if(isset($_GET['modalbtn'])){
-                                $value = $_GET['modalbtn'];
-                            }
+                 <div class="form-group">
+                    <label class="control-label">Feedback:</label>
+                    <div id="userFeedbackMessageText" class="jumbotron">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Message:</label>
+                    <textarea class="form-control" id="message-text" name="reply"></textarea>
+                  </div>
 
-                            $qry = $pdo->prepare("select feedback_messages from feedback where feedback_id = '$value';");
-                            $qry->execute();
-                            $result = $qry->fetch(PDO::FETCH_ASSOC); 
+                </div>
+                <div class="modal-footer">
+                    <button type='submit' class='btn btn-primary' name='srep'>Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </form>
 
-                            echo "<p>".$result['feedback_messages']."</p>";
-                        
-                    echo '</div>';
-                  echo '</div>';
-                  echo '<div class="form-group">';
-                    echo '<label for="message-text" class="control-label">Message:</label>';
-                    echo '<textarea class="form-control" id="message-text" name="reply"></textarea>';
-                  echo '</div>';
-
-                echo '</div>';
-                echo '<div class="modal-footer">';
-                    echo '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-                    echo "<button type='submit' class='btn btn-primary' name='srep' value='$value'>Save</button>";
-                echo '</div>';
-                echo '</form>';
-                
-                ?>
                 
         </div>
         </div>
     </div>
             
     <?php
-    //include "fragments/connection.php";
+         include "fragments/connection.php";
          if(isset($_GET['done'])){
             $id = $_GET['done'];
             $sql = $pdo->prepare("update feedback set feedback_status=2 where feedback_id = '$id';");
             $sql->execute();
             //echo "<meta http-equiv='refresh' content='0'>";
         }           
-        if(isset($_GET['srep'])){
+        if(isset($_POST['srep'])){
             
-            $reply = $_GET['reply'];
-            $value = $_GET['srep'];
+            $reply = $_POST['reply'];
+            $value = $_POST['feedbackId'];
             $sql = $pdo->prepare("update feedback set checked_description = '$reply', feedback_status=03 where feedback_id = '$value';");
             $sql->execute();
         }
+
+
     ?>
 </body>
 </html>    
