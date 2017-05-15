@@ -69,6 +69,13 @@
                         $sql->bindParam(':birthday', $birthday);
                         $sql->bindParam(':phonenum', $phonenum);
                         $sql->execute();
+
+                        $status = $account->getStatus();
+                        $roleId = $account->getRoleId();
+                        $userPicture = $account->getUserPicture();
+
+                        $_SESSION["userAccount"] = new UserAccount($accountId, $username, '', $address, $fname,
+                            $lname, $mname, $status, $emailadd, $birthday, $phonenum, $roleId, $userPicture);
                         header('view-profile.php');
 
                     }else{
@@ -87,6 +94,14 @@
                         $sql->bindParam(':birthday', $birthday);
                         $sql->bindParam(':phonenum', $phonenum);
                         $sql->execute();
+
+                        $status = $account->getStatus();
+                        $roleId = $account->getRoleId();
+                        $userPicture = $account->getUserPicture();
+
+                        $_SESSION["userAccount"] = new UserAccount($accountId, $username, '', $address, $fname,
+                            $lname, $mname, $status, $emailadd, $birthday, $phonenum, $roleId, $userPicture);
+
                         header('view-profile.php');
                     }
                 }
