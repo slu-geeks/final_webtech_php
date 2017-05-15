@@ -51,6 +51,13 @@ require '../classes/UserAccount.php';
                                 $sql->execute();
                                 //echo "<meta http-equiv='refresh' content='0'>";
                             }
+
+                            if(isset($_GET['request_cancel'])){
+                                $rid=$_GET['request_cancel'];
+                                $sql = $pdo->prepare("update service_request set request_status=5 where request_id = '$rid';");
+                                $sql->execute();
+                                //echo "<meta http-equiv='refresh' content='0'>";
+                            }
                         ?>
                     </table>
                 </div>
