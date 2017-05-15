@@ -4,7 +4,7 @@ require '../classes/UserAccount.php';
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    include 'fragments/head.php';
+include 'fragments/head.php';
 ?>
 <body>
 
@@ -43,13 +43,16 @@ function echoActiveClassIfRequestMatches($requestUri)
                 <?php
                 require_once 'fragments/connection.php';
 
-                if(isset($_POST['submit'])){
-                    foreach($_POST['approval'] as $item){
-                        if($item == 1){
+                if (isset($_POST['submit'])) {
+                    foreach ($_POST['approval'] as $item) {
+                        $array = explode(':', $item);
+                        $status =$array[0];
+                        if ($array[0] == 1) {
                             continue;
                         }
-                        $rid = $_POST['requestId'];
-                        $sql = $pdo->prepare("update service_request set request_status= $item where request_id = $rid;");
+
+                        $rid = $array[1];
+                        $sql = $pdo->prepare("update service_request set request_status= $status, start_servicing=curdate() where request_id = $rid;");
                         $sql->execute();
                     }
                 }
@@ -65,51 +68,56 @@ function echoActiveClassIfRequestMatches($requestUri)
                 </div>
                 <form method='post' action=''>
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example"
-                       name="anothercontent">
+                           name="anothercontent">
 
-                    <?php
-                    require_once 'fragments/connection.php';
+                        <?php
+                        require_once 'fragments/connection.php';
 
-                    $usr = $_SESSION['username'];
-                    $userAccount = $_SESSION["userAccount"];
-                    $spAccountId = $userAccount->getAccountId();
+                        $usr = $_SESSION['username'];
+                        $userAccount = $_SESSION["userAccount"];
+                        $spAccountId = $userAccount->getAccountId();
 
-                    $query = $pdo->prepare("SELECT * FROM service_request INNER JOIN user_account USING (account_id) INNER JOIN pet_service USING (service_id) where request_status = 1 AND service_request.sp_id = $spAccountId;");
+                        $query = $pdo->prepare("SELECT * FROM service_request 
+                              INNER JOIN user_account USING (account_id) 
+                              INNER JOIN pet_service USING (service_id) 
+                              where request_status = 1 AND 
+                              service_request.sp_id = $spAccountId;");
 
-                    $query->execute();
-                    $result = $query->fetchAll();
+                        $query->execute();
+                        $result = $query->fetchAll();
 
-                    echo "<tr>";
-                    echo "<th>Customer</th>";
-                    echo "<th> Service Name </th>";
-                    echo "<th>Amount</th>";
-                    /*echo "<th>Expected Duration</th>";*/
-                    echo "<th>More Details</th>";
-                    echo "</tr>";
-
-                    foreach ($result as $query) {
-                        //$expd = $query['end_servicing'] - $query['start_servicing'];
                         echo "<tr>";
-                        echo "<input type='hidden' name='requestId' value='" . $query['request_id'] ."' />";
+                        echo "<th>Customer</th>";
+                        echo "<th> Service Name </th>";
+                        echo "<th>Amount</th>";
+                        /*echo "<th>Expected Duration</th>";*/
+                        echo "<th>More Details</th>";
+                        echo "</tr>";
+
+                        foreach ($result as $query) {
+                            //$expd = $query['end_servicing'] - $query['start_servicing'];
+                            echo "<tr>";
                             echo "<td>" . $query['username'] . "</td>";
                             echo "<td>" . $query['service_name'] . "</td>";
                             echo "<td>" . $query['service_price'] . "</td>";
-    /*                        echo "<td>" . $expd . "</td>";*/
-                            echo "<td>
-                                <select name='approval[]'>                                        
-                                             <option value='1'>Not Checked</option>
-                                             <option value='3'>Approve for servicing</option>
-                                </select>                           
-                            </td>";
-                        echo "</tr>";
-                    }
+                            /*                        echo "<td>" . $expd . "</td>";*/
+                            echo "<td>";
 
-                    ?>
+                            echo <<< OPTIONS
+                            <select name="approval[]">
+                                <option value="1:${query['request_id']}">Not Checked</option>
+                                <option value="3:${query['request_id']}">Approve for servicing</option>
+                            </select>
+OPTIONS;
+                            echo "                          
+                            </td>;
+                        </tr>";
+                        }
+
+                        ?>
                     </table>
-                    <input id="reply_btn" type="submit" name='submit' value="Submit" class="btn btn-default" />
-                    </form>
-
-
+                    <input id="reply_btn" type="submit" name='submit' value="Submit" class="btn btn-default"/>
+                </form>
 
 
                 <!--
