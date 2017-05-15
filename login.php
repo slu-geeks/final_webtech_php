@@ -90,6 +90,76 @@ require 'classes/UserAccount.php';
   }
 
 ?>
+
+    <?php
+    $errMsg = "";
+    if(isset($_GET['submit'])){
+        //username and password sent from Form
+        $username = trim($_GET['username']);
+        $password = trim($_GET['password']);
+
+        if($username == '')
+            $errMsg .= 'You must enter your Username<br>';
+
+        if($password == '')
+            $errMsg .= 'You must enter your Password<br>';
+
+        //if($errMsg == ''){
+        if($username && $password){
+            require "pages/fragments/connection.php";
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $queryLogin = "SELECT * FROM user_account WHERE username='$username' AND password='$password' and role_id = 2";
+
+            $records = $pdo->query($queryLogin);
+            $records->execute();
+            $counter = $records->rowCount();
+
+
+            if($counter != 0){
+                while($rows = $records->fetch(PDO::FETCH_ASSOC)){
+                    $dbuser = $rows["username"];
+                    $dbpass = $rows["password"];
+                    if($username == $dbuser && $password == $dbpass ) {
+                        session_start();
+
+                        /*
+                         * The whole userAccount information pack into an object and place inside the user session for further usage
+                         * */
+                        $accountId = $rows["account_id"];
+                        $address = $rows["address"];
+                        $firstName = $rows["first_name"];
+                        $lastName = $rows["last_name"];
+                        $middleName = $rows["middle_name"];
+                        $status = $rows["status"];
+                        $emailAddress = $rows["email_address"];
+                        $birthday = $rows["birthday"];
+                        $phoneNumber = $rows["phone_number"];
+                        $roleId = $rows["role_id"];
+                        $userPicture = $rows["user_picture"];
+
+                        $userAccount = new UserAccount($accountId, $dbuser, '', $address, $firstName,
+                            $lastName, $middleName, $status, $emailAddress, $birthday, $phoneNumber, $roleId, $userPicture);
+
+                        $_SESSION["userAccount"] = $userAccount;
+
+
+                        $_SESSION["username"]=$dbuser;
+                        header('location:pages/index.php');
+
+                    }else{
+                        $errMsg .= "User Credentials Not Found!";
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    ?>
+
+    ?>
   <div align="center">
     <div style="width:300px; border: solid 1px #006D9C; " align="left">
       <?php
