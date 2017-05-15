@@ -45,11 +45,14 @@
 block;
 
         }elseif($status == 02){
-            echo "<td>"
-            .'<form action="#" method="get">'
-            ."<button type='submit' class='modellink btn btn-default' data-toggle='modal' data-target='#myModal' name='modalbtn' value='$id'>Reply</button>"
-                .'</form>'
-            ."</td>"; 
+            echo <<< block
+<td>
+            <form action="#" method="get">
+            <button type="submit" class="modellink btn btn-default" data-toggle="modal" data-target="#myModal" name="modalbtn" onclick="setUncheckedId('$id:::::$feedbackMsg')">Reply</button>            
+            </form>
+            </td>
+block;
+
         }elseif($status == 03){
             echo "<td>"
                 .'<form action="#" method="get">'
