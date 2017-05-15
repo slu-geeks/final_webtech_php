@@ -109,6 +109,7 @@ function echoActiveClassIfRequestMatches($requestUri)
                             <select name="approval[]">
                                 <option value="1:${query['request_id']}">Not Checked</option>
                                 <option value="3:${query['request_id']}">Approve for servicing</option>
+                                <option value="5:${query['request_id']}">Deny the service</option>
                             </select>
 OPTIONS;
                             echo "</td> </tr>";
