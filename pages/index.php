@@ -154,7 +154,7 @@ require '../classes/UserAccount.php';
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE (request_status = 01 or request_status = 03)  and start_servicing < curdate() AND service_request.sp_id = '$user_id'"); 
+                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE (request_status = 01 or request_status = 03)  and start_servicing <= curdate() AND service_request.sp_id = '$user_id'"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
