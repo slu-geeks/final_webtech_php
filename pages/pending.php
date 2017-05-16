@@ -81,13 +81,12 @@ function echoActiveClassIfRequestMatches($requestUri)
                               INNER JOIN user_account USING (account_id) 
                               INNER JOIN pet_service USING (service_id) 
                               where request_status = 1 AND 
-                              service_request.sp_id = $spAccountId AND start_servicing > curdate();");
+                              service_request.sp_id = $spAccountId;");
 
                         $query->execute();
                         $result = $query->fetchAll();
 
                         echo "<tr>";
-                        echo "<th>Request ID</th>";
                         echo "<th>Customer</th>";
                         echo "<th> Service Name </th>";
                         echo "<th>Amount</th>";
@@ -98,7 +97,6 @@ function echoActiveClassIfRequestMatches($requestUri)
                         foreach ($result as $query) {
                             //$expd = $query['end_servicing'] - $query['start_servicing'];
                             echo "<tr>";
-                            echo "<td>" . $query['request_id'] . "</td>";
                             echo "<td>" . $query['username'] . "</td>";
                             echo "<td>" . $query['service_name'] . "</td>";
                             echo "<td>" . $query['service_price'] . "</td>";
@@ -109,10 +107,11 @@ function echoActiveClassIfRequestMatches($requestUri)
                             <select name="approval[]">
                                 <option value="1:${query['request_id']}">Not Checked</option>
                                 <option value="3:${query['request_id']}">Approve for servicing</option>
-                                <option value="5:${query['request_id']}">Deny the service</option>
                             </select>
 OPTIONS;
-                            echo "</td> </tr>";
+                            echo "                          
+                            </td>;
+                        </tr>";
                         }
 
                         ?>

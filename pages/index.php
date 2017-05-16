@@ -51,7 +51,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id' AND start_servicing > curdate();");
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 01 and sp_id = '$user_id'");
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          
@@ -76,7 +76,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 04 and sp_id='$user_id' AND start_servicing > curdate();"); 
+                                    $query = $pdo->prepare("SELECT * FROM service_request WHERE request_status = 04 and sp_id='$user_id' "); 
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          
@@ -100,7 +100,7 @@ require '../classes/UserAccount.php';
                                     <?php
                                     $datenow = date("Y-m");
                                     require_once 'fragments/connection.php';
-                                    $query = $pdo->prepare("SELECT * FROM service_request where request_status= 03 and sp_id='$user_id' AND start_servicing > curdate();");
+                                    $query = $pdo->prepare("SELECT * FROM service_request where request_status= 03 and sp_id='$user_id' ");
                                     $query->execute();
                                     $result = $query->fetchAll();
                                     echo count($result);                                          
@@ -142,7 +142,7 @@ require '../classes/UserAccount.php';
                         <div class="text-box" >
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                               Expired Ongoing/Pending Requests
+                               Expired Pending Requests
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -154,7 +154,7 @@ require '../classes/UserAccount.php';
 
                                              $usr = $_SESSION['username'];
 
-                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE (request_status = 01 or request_status = 03)  and start_servicing <= curdate() AND service_request.sp_id = '$user_id'"); 
+                                            $query = $pdo->prepare("SELECT request_id, service_name, start_servicing, service_price, end_servicing FROM service_request  INNER JOIN pet_service ON service_request.service_id  = pet_service.service_id WHERE request_status = 01 and start_servicing < curdate() AND service_request.sp_id ='$user_id'"); 
                                             $query->execute();
                                             $result = $query->fetchAll();
                                             
